@@ -1,0 +1,10 @@
+RewriteEngine On
+
+# Ensure the Authorization header is passed to PHP
+RewriteCond %{HTTP:Authorization} ^(.*)
+RewriteRule .* - [e=HTTP_AUTHORIZATION:%1]
+
+# Redirect all requests to app/routes/api.php if the file or directory doesn't exist
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ app/routes/api.php [QSA,L]
